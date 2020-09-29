@@ -5,9 +5,9 @@ on:
     branches:
     - master
     paths:
-    - 'active-visualization/notebook/main.ipynb'
+    - 'notebook/main.ipynb'
     - '.github/workflows/publishAL.yml'
-    - 'active-visualization/postprocessing/remove_out.py'
+    - 'postprocessing/remove_out.py'
 
 jobs:
   build:
@@ -25,8 +25,8 @@ jobs:
       run: pip install nbconvert==5.6.0
     - name: convert ipynb to publishable html for active-visualization
       run: |
-        jupyter nbconvert active-visualization/notebook/main.ipynb  --TemplateExporter.exclude_input=True --to html
-        python active-visualization/postprocessing/remove_out.py
+        jupyter nbconvert notebook/main.ipynb  --TemplateExporter.exclude_input=True --to html
+        python postprocessing/remove_out.py
     - uses: mikeal/publish-to-github-action@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
