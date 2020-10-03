@@ -8,6 +8,7 @@ on:
     - 'notebook/main.ipynb'
     - '.github/workflows/publishAL.yml'
     - 'postprocessing/remove_out.py'
+    - 'notebook/dev.ipynb'
 
 jobs:
   build:
