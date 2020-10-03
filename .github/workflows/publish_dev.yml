@@ -1,0 +1,33 @@
+name: Correct and Publish Dev
+
+on: 
+  push:
+    branches:
+    - master
+    paths:
+    - '.github/workflows/publish_dev.yml'
+    - 'postprocessing/remove_out.py'
+    - 'notebook/dev.ipynb'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.6
+      uses: actions/setup-python@v2
+      with:
+        # Semantic version range syntax or exact version of a Python version
+        python-version: '3.6' 
+    - name: install nbconvert
+      run: pip install nbconvert==5.6.0
+    - name: convert ipynb to publishable html for active-visualization
+      run: |
+        jupyter nbconvert notebook/dev.ipynb  --TemplateExporter.exclude_input=True --to html
+        python postprocessing/remove_out.py notebook/dev.html dev/index.html
+    - uses: mikeal/publish-to-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH_NAME: '' #optional defaults to master
