@@ -27,7 +27,9 @@ jobs:
     - name: convert ipynb to publishable html for active-visualization
       run: |
         jupyter nbconvert notebook/main.ipynb  --TemplateExporter.exclude_input=True --to html
-        python postprocessing/remove_out.py
+        jupyter nbconvert notebook/dev.ipynb  --TemplateExporter.exclude_input=True --to html
+        python postprocessing/remove_out.py notebook/main.html index.html
+        python postprocessing/remove_out.py notebook/dev.html dev/index.html
     - uses: mikeal/publish-to-github-action@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
